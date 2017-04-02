@@ -138,15 +138,15 @@ angular.module('myApp.chartView')
                     }
                 }, true);
 
-                $scope.$watch('lineColor', function(n, o){
+                $scope.$watch('lineColor', function(n, o) {
                     if(n) {
-                        d3.select(".line").attr('stroke', n)
+                        d3.selectAll(".line").style('stroke', n)
                     }
                 }, true);
 
                 $scope.$watch('barColor', function(n, o){
                     if(n) {
-                        svg.selectAll(".rect").style("fill", n)
+                        d3.selectAll(".barRect").style("fill", n)
                     }
                 }, true);
 
@@ -208,6 +208,7 @@ angular.module('myApp.chartView')
                     bar.selectAll("rect")
                         .data(function(d) { return d.valores; })
                         .enter().append("rect")
+                        .attr('class', 'barRect')
                         .attr("width", x1.rangeBand())
                         .attr("x", function(d) { return x1(d.name); })
                         .attr("y", function(d) { return y(d.value); })
