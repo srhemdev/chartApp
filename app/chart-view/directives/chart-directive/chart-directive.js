@@ -13,7 +13,7 @@ angular.module('myApp.chartView')
                 $scope.bar = true;
                 $scope.line = true;
 
-                $scope.ySelected = $scope.config.yAxisNames[0];
+                $scope.ySelected = $scope.config.yAxisNames;
                 $scope.barColor = $scope.config.barColors[0];
                 $scope.lineColor = $scope.config.lineColors[0];
 
@@ -21,14 +21,21 @@ angular.module('myApp.chartView')
                 var margin,
                     width,
                     height,
-                    x, y,
+                    x,
                     xAxis,
                     yAxis,
-                    valueline,
+                    line,
                     s = $element.find('svg'),
                     svgElement = d3.select(s[0]),
-                    svg;
+                    svg, x0, x1, y, options,
+                    colorRange = d3.scale.category20(),
+                    color = d3.scale.ordinal()
+                    .range(colorRange.range());
 
+                function setYAxisTitle() {
+                    var filtersNames = $scope.ySelected.map(function(item){return item.name;});
+                    d3.select('.y-axis-text').text(filtersNames.join(', '));
+                }
 
                 function redraw() {
                     if (s) {
@@ -38,12 +45,25 @@ angular.module('myApp.chartView')
                     width = $element[0].offsetWidth - margin.left - margin.right;
                     height = 650 - margin.top - margin.bottom;
 
+                    x0 = d3.scale.ordinal()
+                        .rangeRoundBands([0, width], .1);
+
+                    x1 = d3.scale.ordinal();
+
                     x = d3.scale.ordinal().rangeRoundBands([0, width], .05);
 
                     y = d3.scale.linear().range([height, 0]);
 
+                    line = d3.svg.line()
+                        .x(function(d, i) {
+                            return x0(d.date) + x1.rangeBand();
+                        })
+                        .y(function(d) {
+                            return y(d.val);
+                        });
+
                     xAxis = d3.svg.axis()
-                        .scale(x)
+                        .scale(x0)
                         .orient("bottom")
                         .tickFormat(d3.time.format("%H:%M:%S"));
 
@@ -52,9 +72,6 @@ angular.module('myApp.chartView')
                         .orient("left")
                         .ticks(10);
 
-                    valueline = d3.svg.line()
-                        .x(function(d) { return x(d.date) + parseInt(x.rangeBand()/2, 10); })
-                        .y(function(d) { return y(d[$scope.ySelected.prop]); });
 
                     svg = svgElement
                         .attr("width", width + margin.left + margin.right)
@@ -63,7 +80,7 @@ angular.module('myApp.chartView')
                         .attr("transform",
                             "translate(" + margin.left + "," + margin.top + ")");
 
-                     svg.append("text")
+                    svg.append("text")
                         .attr('class', 'sb')
                         .attr("text-anchor", "middle")
                         .attr("transform", "translate("+ (width/2) +","+(height + 50)+")")  // centre below axis
@@ -90,20 +107,22 @@ angular.module('myApp.chartView')
                         .style("text-anchor", "end")
                         .text($scope.ySelected.name);
 
+                    setYAxisTitle();
                 }
 
                 redraw();
 
                 $scope.$watch('data', function(n, o){
                     if(n!=o) {
-                        updateView(n, o);
+                        updateView(n);
                     }
                 }, true);
 
                 $scope.$watch('ySelected', function(n, o){
+                    $scope.filters = n.map(function(item){return item.prop;});
+                    setYAxisTitle();
                     if(n!=o) {
                         updateView($scope.data);
-                        d3.select('.y-axis-text').text(n.name);
                     }
                 }, true);
 
@@ -120,87 +139,126 @@ angular.module('myApp.chartView')
                 }, true);
 
                 $scope.$watch('lineColor', function(n, o){
-                    if(n!=o && n) {
-                        d3.select('.line').attr('stroke', n)
+                    if(n) {
+                        d3.select(".line").attr('stroke', n)
                     }
                 }, true);
 
                 $scope.$watch('barColor', function(n, o){
-                    if(n!=o && n) {
-                        d3.select('.bar').style("fill", n)
+                    if(n) {
+                        svg.selectAll(".rect").style("fill", n)
                     }
                 }, true);
 
 
-                function updateView(newData, oldData) {
+                function updateView(newData) {
 
-                    if(oldData) {
-                        removeBar(oldData);
-                        removeLine(oldData);
+                    if(newData) {
+                        removeBar(newData);
+                        removeLine(newData);
+
+                        svg.select('.x.axis').call(xAxis);
+                        svg.select(".y.axis").call(yAxis)
+
+                        newData.forEach(function(d) {
+                            d.date = new Date(d.timestamp);
+                        });
+
+                        options = d3.keys(newData[0]).filter(function(key) {
+                            return $scope.filters.indexOf(key) > -1;
+                        });
+
+                        newData.forEach(function(d) {
+                            d.valores = options.map(function(name) {
+                                return {name: name, value: +d[name]};
+                            });
+                        });
+
+
+
+                        x0.domain(newData.map(function(d) {
+                            return d.date;
+                        }));
+                        x1.domain(options).rangeRoundBands([0, x0.rangeBand()]);
+                        y.domain([0, d3.max(newData, function(d) { return d3.max(d.valores, function(d) { return d.value; }); })]);
+
+
+                        if($scope.bar) {
+                            updateBar(newData)
+                        }
+
+                        if($scope.line) {
+                            updateLine(newData)
+                        }
                     }
-
-                    svg.select('.x.axis').call(xAxis);
-                    // same for yAxis but with more transform and a title
-                    svg.select(".y.axis").call(yAxis)
-
-                    newData.forEach(function(d) {
-                        d.date = new Date(d.timestamp);
-                        d.throughput_in = d.network_throughput.in;
-                        d.throughput_out = d.network_throughput.out;
-                        d.packet_in = d.network_packet.in;
-                        d.packet_out = d.network_packet.out;
-                        d.error_system = d.errors.system;
-                        d.error_sensor = d.errors.sensor;
-                        d.error_component = d.errors.component;
-
-                        d.value = d[$scope.ySelected.prop];
-                    });
-
-                    x.domain(newData.map(function(d) { return d.date; }));
-                    y.domain([0, d3.max(newData, function(d) { return d.value; })]);
-
-                    if($scope.bar) {
-                        updateBar(newData)
-                    }
-
-                    if($scope.line) {
-                        updateLine(newData)
-                    }
-
                 }
 
                 function removeBar(oldData) {
-                    var bars = svg.selectAll(".bar").data(oldData)
+                    var bars = svg.selectAll(".rect").data(oldData)
                     bars.remove();
                 }
 
                 function updateBar(newData) {
-
-                    svg.selectAll("bar")
+                    var bar = svg.selectAll(".bar")
                         .data(newData)
+                        .enter().append("g")
+                        .attr("class", "rect")
+                        .attr("transform", function(d) { return "translate(" + x0(d.date) + ",0)"; });
+
+                    bar.selectAll("rect")
+                        .data(function(d) { return d.valores; })
                         .enter().append("rect")
-                        .attr('class', 'bar')
-                        .style("fill", $scope.barColor)
-                        .attr("x", function(d) { return x(d.date); })
-                        .attr("width", x.rangeBand())
+                        .attr("width", x1.rangeBand())
+                        .attr("x", function(d) { return x1(d.name); })
                         .attr("y", function(d) { return y(d.value); })
-                        .attr("height", function(d) { return height - y(d.value); });
+                        .attr("value", function(d){return d.name;})
+                        .attr("height", function(d) { return height - y(d.value); })
+                        .style("fill", function(d) {
+                            if($scope.ySelected.length == 1) {
+                                return $scope.barColor;
+                            }
+                            return color(d.name);
+                        })
+                        .style('opacity', 0.4)
                 }
 
                 function removeLine(oldData) {
-                    var line = svg.selectAll(".line").data(oldData)
-                    line.remove();
+                    var lines = svg.selectAll(".linePath").data(oldData)
+                    lines.remove();
                 }
 
                 function updateLine(newData) {
-                    svg.append("path")
+                    var lines = options.map(function(id) {
+                        return {
+                            id: id,
+                            values: newData.map(function(d) {
+                                return {id: id, date: d.date, val: d[id]};
+                            })
+                        };
+                    });
+
+                    x.domain(d3.extent(newData, function(d) { return d.date; }));
+
+
+                    var linePath = svg.append("g")
+                        .attr("class", "linePath")
+                        .selectAll(".linePath")
+                        .data(lines)
+                        .enter().append("g");
+
+
+
+                    linePath.append("path")
                         .attr("class", "line")
-                        .attr("stroke", $scope.lineColor)
-                        .attr("d", valueline(newData));
-                    // Make the changes
-//                    svg.select(".line")   // change the line
-//                        .duration(750)
-//                        .attr("d", valueline(newData));
+                        .attr("d", function(d) {
+                            return line(d.values);
+                        })
+                        .style("stroke", function(d) {
+                            if($scope.ySelected.length == 1) {
+                                return $scope.lineColor;
+                            }
+                            return color(d.id);
+                        });
                 }
 
 

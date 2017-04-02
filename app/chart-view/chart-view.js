@@ -18,13 +18,13 @@ angular.module('myApp.chartView', ['ngRoute'])
     var yAxisNames = [{name: 'Memory Usage', prop: 'memory_usage'},
         {name: 'CPU Usage', prop:'cpu_usage'},
         {name: 'Memory Available', prop:'memory_available'},
-        {name: 'Network Throughput IN', prop:'throughput_in'},
-        {name: 'Network Throughput OUT', prop:'throughput_out'},
-        {name: 'Network Packet IN', prop:'packet_in'},
-        {name: 'Network Packet IN', prop:'packet_out'},
-        {name: 'Errors System', prop:'error_system'},
-        {name: 'Errors Sensor', prop:'error_sensor'},
-        {name: 'Errors Component', prop:'error_component'}
+//        {name: 'Network Throughput IN', prop:'throughput_in'},
+//        {name: 'Network Throughput OUT', prop:'throughput_out'},
+//        {name: 'Network Packet IN', prop:'packet_in'},
+//        {name: 'Network Packet IN', prop:'packet_out'},
+//        {name: 'Errors System', prop:'error_system'},
+//        {name: 'Errors Sensor', prop:'error_sensor'},
+//        {name: 'Errors Component', prop:'error_component'}
     ];
 
     $scope.config = {
@@ -34,7 +34,7 @@ angular.module('myApp.chartView', ['ngRoute'])
         lineColors: ['teal', 'pink', 'olive']
     };
 
-    var counter = 0, limit = 7,
+    var counter = 0, limit = 4,
     df = new AppService.dataFetcher(function() {
         var startTime = new Date(),
             endTime = new Date(startTime.getTime() + 1000),
@@ -54,7 +54,6 @@ angular.module('myApp.chartView', ['ngRoute'])
                 $scope.$apply();
             },
             "stateFetchingFailure": function(event, data) {
-//                console.log(data);
 //                if(++counter > limit) {
 //                    $scope.records.splice(0, 1)
 //                }

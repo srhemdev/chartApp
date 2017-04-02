@@ -35,8 +35,14 @@
    font-weight: bold;
 }
 
-.view {
+.chart-view .view {
     min-width: 974px;
 }
+
+.chart-view [disabled='disabled'] {
+    cursor: not-allowed;
+}
+
+
 
 
