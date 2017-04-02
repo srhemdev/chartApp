@@ -29,9 +29,7 @@ angular.module('myApp.chartView', ['ngRoute'])
 
     $scope.config = {
         yAxisNames: yAxisNames,
-        xAxisName: 'Time Series',
-        barColors: ['steelblue', 'lightgrey', 'lightblue'],
-        lineColors: ['teal', 'pink', 'olive']
+        xAxisName: 'Time Series'
     };
 
     var counter = 0, limit = 4,

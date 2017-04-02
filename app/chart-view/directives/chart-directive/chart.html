@@ -5,10 +5,10 @@
         <input type="checkbox" ng-model="bar"><label class="option-label">Bar</label><br/><br/>
         <label>Select Bar Color</label>
         <select class="select" ng-model="barColor"
-                ng-options="item for item in config.barColors" ng-disabled="ySelected.length>1"></select><br/><br/>
+                ng-options="item for item in barColors" ng-disabled="ySelected.length>1"></select><br/><br/>
         <label>Select Line Color</label>
         <select class="select" ng-model="lineColor"
-                ng-options="item for item in config.lineColors" ng-disabled="ySelected.length>1"></select>
+                ng-options="item for item in lineColors" ng-disabled="ySelected.length>1"></select>
 
     </div>
     <div class="y-selection">

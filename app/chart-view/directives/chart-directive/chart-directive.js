@@ -14,8 +14,6 @@ angular.module('myApp.chartView')
                 $scope.line = true;
 
                 $scope.ySelected = $scope.config.yAxisNames;
-                $scope.barColor = $scope.config.barColors[0];
-                $scope.lineColor = $scope.config.lineColors[0];
 
 
                 var margin,
@@ -31,6 +29,12 @@ angular.module('myApp.chartView')
                     colorRange = d3.scale.category20(),
                     color = d3.scale.ordinal()
                     .range(colorRange.range());
+
+                $scope.barColors = colorRange.range()
+                $scope.lineColors = colorRange.range()
+                $scope.barColor = $scope.barColors[0];
+                $scope.lineColor = $scope.lineColors[0];
+
 
                 function setYAxisTitle() {
                     var filtersNames = $scope.ySelected.map(function(item){return item.name;});
@@ -91,10 +95,7 @@ angular.module('myApp.chartView')
                         .attr("transform", "translate(0," + height + ")")
                         .call(xAxis)
                         .selectAll("text")
-                        .style("text-anchor", "end")
-                        .attr("dx", "-.8em")
-                        .attr("dy", "-.55em")
-                        .attr("transform", "rotate(-90)" );
+                        .style("text-anchor", "end");
 
                     svg.append("g")
                         .attr("class", "y axis")
@@ -214,13 +215,13 @@ angular.module('myApp.chartView')
                         .attr("y", function(d) { return y(d.value); })
                         .attr("value", function(d){return d.name;})
                         .attr("height", function(d) { return height - y(d.value); })
-                        .style("fill", function(d) {
-                            if($scope.ySelected.length == 1) {
-                                return $scope.barColor;
-                            }
-                            return color(d.name);
-                        })
-                        .style('opacity', 0.4)
+                        .attr("style",function(d,i) {
+                            var exp = ($scope.ySelected.length === 1) ? $scope.barColor: color(i);
+
+                            return "fill:" + exp + ";fill-opacity:0.2; stroke:" +
+                                exp + ";stroke-width:2px";
+                        });
+
                 }
 
                 function removeLine(oldData) {
@@ -254,11 +255,8 @@ angular.module('myApp.chartView')
                         .attr("d", function(d) {
                             return line(d.values);
                         })
-                        .style("stroke", function(d) {
-                            if($scope.ySelected.length == 1) {
-                                return $scope.lineColor;
-                            }
-                            return color(d.id);
+                        .style("stroke", function(d, i) {
+                            return ($scope.ySelected.length === 1) ? $scope.lineColor: color(i);
                         });
                 }
 
