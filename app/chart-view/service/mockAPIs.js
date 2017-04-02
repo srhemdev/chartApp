@@ -102,6 +102,7 @@
 
     $.mockjax(handler1);
 
+    //Handle mock response for post request
     $.mockjax({
         url: '/server_stat/server1',
         type: "POST",

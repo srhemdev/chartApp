@@ -1,6 +1,7 @@
 'use strict';
-
-// Declare app level module which depends on views, and components
+/**
+ * myApp module
+ */
 angular.module('myApp', [
   'ngRoute',
   'myApp.chartView'
@@ -8,5 +9,6 @@ angular.module('myApp', [
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
+  //Default Route
   $routeProvider.otherwise({redirectTo: '/charts'});
 }]);

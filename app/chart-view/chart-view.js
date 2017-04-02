@@ -10,6 +10,7 @@ angular.module('myApp.chartView', ['ngRoute'])
 }])
 
 .controller('ChartViewCtrl', ['AppService', '$scope', '$timeout',function(AppService, $scope, $timeout) {
+
     $scope.records = [];
     $scope.start = start;
     $scope.stop = stop;
@@ -17,7 +18,7 @@ angular.module('myApp.chartView', ['ngRoute'])
 
     var yAxisNames = [{name: 'Memory Usage', prop: 'memory_usage'},
         {name: 'CPU Usage', prop:'cpu_usage'},
-        {name: 'Memory Available', prop:'memory_available'},
+        {name: 'Memory Available', prop:'memory_available'}
 //        {name: 'Network Throughput IN', prop:'throughput_in'},
 //        {name: 'Network Throughput OUT', prop:'throughput_out'},
 //        {name: 'Network Packet IN', prop:'packet_in'},
@@ -32,6 +33,7 @@ angular.module('myApp.chartView', ['ngRoute'])
         xAxisName: 'Time Series'
     };
 
+    //Initialize the Data Fetcher
     var counter = 0, limit = 4,
     df = new AppService.dataFetcher(function() {
         var startTime = new Date(),
@@ -41,6 +43,9 @@ angular.module('myApp.chartView', ['ngRoute'])
         return ["/server_stat/", "server1", "?" + queryParam].join("");
     }, 1000);
 
+    /**
+     * Init function to set subscriber on data changes.
+     */
 
     function init() {
         $(df).on({
@@ -62,16 +67,20 @@ angular.module('myApp.chartView', ['ngRoute'])
         start();
     }
 
+   //Start fetching data
     function start() {
         df.start(true);
     }
 
+    //Stop fetching data
     function stop() {
         df.stop(true);
     }
 
+    //call init function
     init();
 
+    //add data from form
     function addData(form) {
         var req = {
             timestamp: (new Date()).toISOString(),
@@ -93,6 +102,7 @@ angular.module('myApp.chartView', ['ngRoute'])
             }
         }
 
+        //post data and add new data to the charts
         df.postData(req).then(function(res){
             if(res) {
                 if(++counter > limit) {

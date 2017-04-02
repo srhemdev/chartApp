@@ -13,6 +13,7 @@ angular.module('myApp.chartView')
             self.timer = null;
             self.requestObj = null;
 
+            //request for next set  of data
             function getNext() {
                 self.requestObj = $.ajax({
                     url: urlFactory()
@@ -49,6 +50,7 @@ angular.module('myApp.chartView')
                 this.delay = newDelay;
             };
 
+            //post data to server endpoint
             self.postData = function(req) {
                 var defer = $q.defer();
                 $.ajax({
