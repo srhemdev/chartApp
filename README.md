@@ -87,6 +87,8 @@ How to run the app:
 
 --Run http://localhost:8000/ in your browser.
 
+--Additionally you can see the app on https://srhemdev.github.io/chartApp/app/app.html#!/charts
+
 
 
 Improvements:
