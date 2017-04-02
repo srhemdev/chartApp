@@ -1,0 +1,23 @@
+<div class="chart">
+    <div class="chart-selection">
+        <label>Select Chart Type</label>
+        <input type="checkbox" ng-model="line"><label class="option-label">Line</label>
+        <input type="checkbox" ng-model="bar"><label class="option-label">Bar</label>
+    </div>
+    <div class="y-selection">
+        <label>Select Y axis parameter</label>
+        <!--<select class="select" multiple="true"-->
+                     <!--ng-model="ySelected"-->
+                     <!--ng-options="item as item.name for item in config.yAxisNames"-->
+                     <!--change="selected()" ></select>-->
+        <select class="select" ng-model="ySelected"
+                ng-options="item as item.name for item in config.yAxisNames"></select><br/><br/>
+        <label>Select Bar Color</label>
+        <select class="select" ng-model="barColor"
+                ng-options="item for item in config.barColors"></select><br/><br/>
+        <label>Select Line Color</label>
+        <select class="select" ng-model="lineColor"
+                ng-options="item for item in config.lineColors"></select>
+    </div>
+    <svg class="chart-box"></svg>
+</div>

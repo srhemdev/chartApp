@@ -1,0 +1,43 @@
+.chart-view .no-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;/* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+}
+
+.chart-view .select {
+    border: none;
+    background-color: #4abecc;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-family: Verdana;
+    padding: 10px
+}
+
+.chart-view .error-message {
+    color: #FF0000;
+    font-size: 12px;
+    display: none;
+}
+
+.chart-view .button {
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    color: #ffffff;
+    background-color: #4abecc;
+    min-width: 100%;
+}
+
+.chart-view .sb {
+   font-weight: bold;
+}
+
+.view {
+    min-width: 974px;
+}
+
+

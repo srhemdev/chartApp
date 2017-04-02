@@ -1,0 +1,45 @@
+.chart {
+    padding: 30px;
+}
+
+.chart
+svg.chart-box
+path {
+    stroke-width: 2;
+    fill: none;
+}
+
+
+.chart
+svg.chart-box
+rect.bar {
+    z-index: 0;
+}
+
+
+.chart svg.chart-box .axis path,
+.chart svg.chart-box .axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+    z-index: 2;
+}
+
+.chart svg.chart-box {
+    padding: 20px;
+}
+
+.chart .chart-selection,
+.chart .y-selection {
+    padding: 10px;
+}
+
+.chart label {
+    font-weight: bold;
+}
+
+.chart .option-label{
+    font-weight: normal;
+    padding-left: 5px;
+}

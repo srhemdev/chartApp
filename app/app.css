@@ -1,0 +1,6 @@
+@import "chart-view/chart-view.css";
+
+body.view {
+    font-family: Verdana;
+    color: #222222;
+}
