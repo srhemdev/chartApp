@@ -108,7 +108,6 @@
         responseTime: 750,
         response: function (settings) {
             this.responseText = updateServerStatResponse(settings.data);
-            console.log('response text', this.responseText)
         }
     });
 })();

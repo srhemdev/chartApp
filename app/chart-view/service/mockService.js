@@ -57,7 +57,6 @@ angular.module('myApp.chartView')
                     url: '/server_stat/server1',
                     data : req,
                     success: function(data) {
-                        console.log(data,"data")
                         defer.resolve(data);
                     }
                 });

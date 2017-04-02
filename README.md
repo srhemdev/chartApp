@@ -55,6 +55,9 @@ Components:
      -- index.html
         -Entry point of the application.
 
+    --- vendor
+        Using existing jQuery Mockjax from given project.
+
 
     --- (bower_Components) libraries (Imported 3rd Party libraries)
         I have used AngularJS seed project to set up this environment for the angular App.
@@ -76,7 +79,7 @@ CHOICE OF BROWSER TO RUN THE APPLICATION: CHROME (latest version preferred)
 How to run the app:
 ------------------
 
--git clone
+-git clone https://github.com/srhemdev/chartApp
 -npm install
 -npm start
 -Run http://localhost:8000/ in your browser.

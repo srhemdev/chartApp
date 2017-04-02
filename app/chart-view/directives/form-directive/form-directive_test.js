@@ -12,7 +12,6 @@ describe('myApp.chartView module', function() {
             var element = angular.element("<div form-directive></div>");
             var template = $compile(element)($scope);
             $scope.$digest();
-            console.log(template)
             //expect(view1Ctrl).toBeDefined();
         }));
 

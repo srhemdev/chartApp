@@ -98,7 +98,11 @@ angular.module('myApp.chartView', ['ngRoute'])
 
         df.postData(req).then(function(res){
             if(res) {
-                $scope.records = angular.copy(res);
+                if(++counter > limit) {
+                    $scope.records.splice(0, 1)
+                }
+
+                $scope.records.push(res[0]);
             }
         });
     }
