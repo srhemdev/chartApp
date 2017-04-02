@@ -79,10 +79,13 @@ CHOICE OF BROWSER TO RUN THE APPLICATION: CHROME (latest version preferred)
 How to run the app:
 ------------------
 
--git clone https://github.com/srhemdev/chartApp
--npm install
--npm start
--Run http://localhost:8000/ in your browser.
+--git clone https://github.com/srhemdev/chartApp
+
+--npm install
+
+--npm start
+
+--Run http://localhost:8000/ in your browser.
 
 
 
