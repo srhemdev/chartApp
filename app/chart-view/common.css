@@ -1,4 +1,4 @@
-.chart-view .no-select {
+.view .chart-view .no-select {
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
     -khtml-user-select: none; /* Konqueror HTML */
@@ -8,7 +8,7 @@
                                   supported by Chrome and Opera */
 }
 
-.chart-view .select {
+.view .chart-view .select {
     border: none;
     background-color: #4abecc;
     color: #FFFFFF;
@@ -17,12 +17,12 @@
     padding: 10px
 }
 
-.chart-view .error-message {
+.view .chart-view .error-message {
     color: #FF0000;
     font-size: 12px;
 }
 
-.chart-view .button {
+.view .chart-view .button {
     padding: 10px;
     margin-top: 10px;
     border: none;
@@ -31,15 +31,11 @@
     min-width: 100%;
 }
 
-.chart-view .sb {
+.view .chart-view .sb {
    font-weight: bold;
 }
 
-.chart-view .view {
-    min-width: 1024px;
-}
-
-.chart-view [disabled='disabled'] {
+.view .chart-view [disabled='disabled'] {
     cursor: not-allowed;
 }
 

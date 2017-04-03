@@ -2,16 +2,17 @@
 @import "directives/form-directive/form.css";
 @import "common.css";
 
-
+.view
 .chart-view {
    display: flex;
    flex-direction: row;
 }
-
+.view
 .chart-view .view-form{
     min-width: 30%;
 }
 
+.view
 .chart-view .view-chart{
     min-width: 70%;
 }

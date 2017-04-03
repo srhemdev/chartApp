@@ -1,7 +1,9 @@
-.chart {
+.view .chart {
     padding: 30px;
 }
 
+.view
+.chart-view
 .chart
 svg.chart-box
 path {
@@ -10,13 +12,14 @@ path {
 }
 
 
+.view
 .chart
 svg.chart-box
 rect.bar {
     z-index: 0;
 }
 
-
+.view
 .chart svg.chart-box .axis path,
 .chart svg.chart-box .axis line {
     fill: none;
@@ -26,19 +29,23 @@ rect.bar {
     z-index: 2;
 }
 
+.view
 .chart svg.chart-box {
-    padding: 20px;
+    padding: 20px 25px;
 }
 
+.view
 .chart .chart-selection,
 .chart .y-selection {
     padding: 10px;
 }
 
+.view
 .chart label {
     font-weight: bold;
 }
 
+.view
 .chart .option-label{
     font-weight: normal;
     padding-left: 5px;

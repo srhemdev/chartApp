@@ -1,32 +1,35 @@
+
+.view
 .add-data-form {
     padding: 10px;
 }
 
+.view
 .add-data-form input[type='number'] {
     padding: 5px;
     margin: 5px;
     min-width: 250px;
 }
 
+.view
 .add-data-form label,
 .add-data-form fieldset legend {
     padding: 10px;
     font-weight: bold;
 }
 
+.view
 .add-data-form fieldset {
     padding: 10px;
     border: 1px solid #ccc;
 }
 
-.add-data-form fieldset legend{
-
-}
-
+.view
 .add-data-form fieldset label {
     font-weight: normal;
 }
 
+.view
 .add-data-form input[type='button']:hover {
     opacity: 0.8;
 }
